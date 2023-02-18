@@ -1,0 +1,15 @@
+{
+  "name": "encryptionapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node encryptionServer.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eth-crypto": "^2.5.0"
+  }
+}
