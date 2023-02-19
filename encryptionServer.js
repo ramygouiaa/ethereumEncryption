@@ -11,9 +11,12 @@
  */
 
 const express = require('express');
+const cors = require('cors');
 const EthCrypto = require('eth-crypto');
 const bodyParser = require('body-parser');
 const app = express();
+//  enable CORS
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
