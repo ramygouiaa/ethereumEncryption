@@ -12,6 +12,10 @@ class EthEncryptionManager {
     const encryptedDataObj = EthCrypto.cipher.parse(encryptedData);
     return await EthCrypto.decryptWithPrivateKey(privateKey, encryptedDataObj);
   }
+
+  createIdentity(){
+  return EthCrypto.createIdentity();
+  }
 }
 
 // example usage
@@ -37,4 +41,8 @@ const alicePrivateKey = '0x78235fde9d7da4ad5ca8810933edab75581713ecd3730dd084e07
 const manager = new EthEncryptionManager();
 
 //manager.encryptWithPublicKey(bobPublicKey, 'hoy shit bro!! thats a big shit').then(data => console.log('messageToBob',data));
-manager.decryptWithPrivateKey('0x9364cc495a859d83f692f05dd23a4a856d9a133ac4e39c8624951bf490cb219a', 'a6e16645915b16ed1e3e85a708a9fd280328960ebcf33ba4f013a9de3befdbb2d27e8a6f5aa8671675a4260804d87abd59af25029be6f947aa1854519f977e96498cd4f2dba073745f1a603cfabaf4155aee90bf420e8408864e0d09ec89efcbe99f63b1f07879088193b5e2eea9d08345').then(data => console.log(data));
+manager.decryptWithPrivateKey('0x9364cc495a859d83f692f05dd23a4a856d9a133ac4e39c8624951bf490cb219a'
+, 'a6e16645915b16ed1e3e85a708a9fd280328960ebcf33ba4f013a9de3befdbb2d27e8a6f5aa8671675a4260804d87abd59af25029be6f947aa1854519f977e96498cd4f2dba073745f1a603cfabaf4155aee90bf420e8408864e0d09ec89efcbe99f63b1f07879088193b5e2eea9d08345')
+.then(data => console.log("message:",data));
+
+console.log(manager.createIdentity());
