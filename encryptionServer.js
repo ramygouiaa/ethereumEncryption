@@ -15,8 +15,10 @@ const cors = require('cors');
 const EthCrypto = require('eth-crypto');
 const bodyParser = require('body-parser');
 const app = express();
-//  enable CORS
-app.use(cors());
+//  enable CORS for all origins
+app.use(cors({
+origin:"*"
+}));
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -70,4 +72,4 @@ app.get('/identity', (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Server up and listening on port ${port}!`));
