@@ -179,16 +179,12 @@ app.post('/decryptpayload', async (req, res) => {
 
 app.get('/identity', (req, res) => {
   try {
-    //const { privateKey, encryptedMessage } = req.body;
-    //const decryptedMessage = await EthCrypto.decryptWithPrivateKey(privateKey, EthCrypto.cipher.parse(encryptedMessage));
     const identity = EthCrypto.createIdentity();
     res.send( identity );
   } catch (err) {
     console.error(err);
     res.status(500).send('could not create account!');
   }
-
-
 });
 
 
