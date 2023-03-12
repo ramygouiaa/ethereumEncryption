@@ -133,8 +133,8 @@ app.get('/', (req, res) => {
 app.post('/encrypt', async (req, res) => {
   try {
     const { publicKey, message } = req.body;
-    const encryptedMessage = await EthCrypto.encryptWithPublicKey(publicKey, message);
-    res.send({ encryptedMessage: EthCrypto.cipher.stringify(encryptedMessage) });
+    const encryptedMessage = await encryptValueAndSerialize(message, publicKey)
+    res.send({ encryptedMessage: encryptedMessage });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error encrypting message');
@@ -157,7 +157,7 @@ app.post('/encryptpayload', async (req, res) => {
 app.post('/decrypt', async (req, res) => {
   try {
     const { privateKey, encryptedMessage } = req.body;
-    const decryptedMessage = await EthCrypto.decryptWithPrivateKey(privateKey, EthCrypto.cipher.parse(encryptedMessage));
+    const decryptedMessage = await decryptSerializedValue(privateKey, encryptedMessage);
     res.send({ decryptedMessage });
   } catch (err) {
     console.error(err);
