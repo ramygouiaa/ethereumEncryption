@@ -24,16 +24,34 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+/**
+ * Encrypts a value using a given public key and returns it as a serialized string.
+ * @param {*} value - The value to be encrypted.
+ * @param {string} publicKey - The public key used to encrypt the value.
+ * @returns {Promise<string>} A Promise that resolves with the encrypted value as a serialized string.
+ */
 const encryptValueAndSerialize = async (value, publicKey) => {
   const encryptedValue = await EthCrypto.encryptWithPublicKey(publicKey, value);
   return EthCrypto.cipher.stringify(encryptedValue);
 }
 
+/**
+ * Decrypts a serialized value using a given private key.
+ * @param {string} privateKey - The private key used to decrypt the value.
+ * @param {string} encryptedValue - The encrypted value as a serialized string.
+ * @returns {Promise<*>} A Promise that resolves with the decrypted value.
+*/
 const decryptSerializedValue = async (privateKey, encryptedValue) => {
   const decryptedValue = await EthCrypto.decryptWithPrivateKey(privateKey, EthCrypto.cipher.parse(encryptedValue));
   return decryptedValue;
 }
 
+/**
+ * Encrypts payload data with a given public key.
+ * @param {Array} data - An array containing payload data.
+ * @param {string} publicKey - The public key used to encrypt the payload data.
+ * @returns {Promise<Array>} A Promise that resolves with the encrypted payload data as an array.
+*/
 const encryptPayloadData = async (data, publicKey) => {
   //here we destructure the elements of the data object
   const [
@@ -77,6 +95,12 @@ const encryptPayloadData = async (data, publicKey) => {
   ]
 }
 
+/**
+ * Decrypts payload data with a given private key.
+ * @param {Array} encryptedData - An array containing encrypted payload data.
+ * @param {string} privateKey - The private key used to decrypt the payload data.
+ * @returns {Promise<Array>} A Promise that resolves with the decrypted payload data as an array.
+*/
 const decryptPayloadData = async (encryptedData, privateKey) => {
   //here we destructure the elements of the data object
   const [
