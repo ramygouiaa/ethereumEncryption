@@ -24,6 +24,10 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
+const PUBLICKEY = '7bb6761681072c4c161cae6962220404517a82ae7c0701daa8e20f8a2825a8e20f9cdcbbb14ae530696b2c735dc2c834a48e2e31afebb770c9f8403020350bf5';
+const PRIVATEKEY = '0xa24c7b335b85a1b802dce837245e5173bd455d4836c81b50e05ec222cee284ad';
+
 /**
  * Encrypts a value using a given public key and returns it as a serialized string.
  * @param {*} value - The value to be encrypted.
@@ -165,6 +169,18 @@ app.post('/encrypt', async (req, res) => {
   }
 });
 
+// POST route to encrypt message
+app.post('/encryptdocdata', async (req, res) => {
+  try {
+    const { documentdata } = req.body;
+    const encryptedDocument = await encryptValueAndSerialize(documentdata, PUBLICKEY)
+    res.send({ encryptedDoc: encryptedDocument });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error encrypting document data');
+  }
+});
+
 // POST route to encrypt data payload
 app.post('/encryptpayload', async (req, res) => {
   try {
@@ -183,6 +199,18 @@ app.post('/decrypt', async (req, res) => {
     const { privateKey, encryptedMessage } = req.body;
     const decryptedMessage = await decryptSerializedValue(privateKey, encryptedMessage);
     res.send({ decryptedMessage });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error decrypting message');
+  }
+});
+
+// POST route to decrypt document
+app.post('/decryptdocdata', async (req, res) => {
+  try {
+    const { encryptedDocumentData } = req.body;
+    const decryptedDoc = await decryptSerializedValue(PRIVATEKEY, encryptedDocumentData);
+    res.send({ decryptedDoc });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error decrypting message');
@@ -212,4 +240,4 @@ app.get('/identity', (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`Server up and listening on port ${port}!`));
+app.listen(port, () => console.log(`encryption Server up and listening on port ${port}!`));
