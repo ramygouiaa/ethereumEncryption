@@ -174,7 +174,7 @@ app.post('/encryptdocdata', async (req, res) => {
   try {
     const { documentdata } = req.body;
     const encryptedDocument = await encryptValueAndSerialize(documentdata, PUBLICKEY)
-    res.send({ encryptedDoc: encryptedDocument });
+    res.send({ data: encryptedDocument });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error encrypting document data');
@@ -208,9 +208,11 @@ app.post('/decrypt', async (req, res) => {
 // POST route to decrypt document
 app.post('/decryptdocdata', async (req, res) => {
   try {
-    const { encryptedDocumentData } = req.body;
-    const decryptedDoc = await decryptSerializedValue(PRIVATEKEY, encryptedDocumentData);
-    res.send({ decryptedDoc });
+    console.log('encryptionServer request body' ,req.body);
+    const { data } = req.body;
+    console.log('encryptedDocument',data);
+    const decryptedDocument = await decryptSerializedValue(PRIVATEKEY, data);
+    res.send({ decryptedDocument });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error decrypting message');
@@ -254,4 +256,4 @@ process.on('unhandledRejection', function(reason, promise) {
   console.error('Unhandled Rejection:', reason.stack || reason);
 });
 
-app.listen(port, () => console.log(`encryption Server up and listening on port ${port}!`));
+app.listen(port, () => console.log(`encryption Server up and listening on port http://localhost:${port}`));
